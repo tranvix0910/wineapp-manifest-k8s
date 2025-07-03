@@ -23,7 +23,7 @@ spec:
       namespace: wine-app
     spec:
       containers:
-        - image: tranvix0910/wineapp-backend:v1
+        - image: 022499043310.dkr.ecr.ap-southeast-1.amazonaws.com/workshop-2/wineapp-backend:v1
           imagePullPolicy: Always
           name: wine-app-backend
           ports:

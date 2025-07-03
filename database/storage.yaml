@@ -1,0 +1,23 @@
+# Storage class
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ebs-sc
+  namespace: wine-app
+provisioner: ebs.csi.aws.com
+volumeBindingMode: WaitForFirstConsumer
+
+---
+# Persistent Volume Claim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongodb-wine-app-pvc
+  namespace: wine-app
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: ebs-sc
+  resources:
+    requests:
+      storage: 4Gi

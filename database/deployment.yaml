@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-wine-app-deployment  
+  namespace: wine-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+      - name: mongodb-wine-app-container
+        image: public.ecr.aws/docker/library/mongo:8.0-noble
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 250m
+            memory: 256Mi
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: "wineapp"
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: "wineapp123"
+        - name: MONGO_INITDB_DATABASE
+          value: "wine-website"
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - name: mongodb-wine-app-volume
+          mountPath: /data/db
+      volumes:
+      - name: mongodb-wine-app-volume
+        persistentVolumeClaim:
+          claimName: mongodb-wine-app-pvc

@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wine-app-ingress  
+  namespace: wine-app
+  labels:
+    app: wine-app
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: wine-app.tranvix.online
+      http:
+        paths:
+          - frontend:
+              service:
+                name: wine-app-frontend-service-clusterip
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
+    - host: api.wine-app.tranvix.online
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: wine-app-backend-service-clusterip
+                port:
+                  number: 4000

@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: wine-app-frontend
+  name: wine-app-frontend-deployment
+  namespace: wine-app
+spec:
+  replicas: 3
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: wine-app-frontend
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: wine-app-frontend
+      namespace: wine-app
+    spec:
+      containers:
+        - image: tranvix0910/wineapp-frontend:v1
+          imagePullPolicy: Always
+          name: wine-app-frontend
+          ports:
+            - containerPort: 80
+              name: tcp
+              protocol: TCP
+          env:
+            - name: REACT_APP_API_URL
+              value: "/api/v1"
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi

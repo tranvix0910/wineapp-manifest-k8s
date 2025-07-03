@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wineapp-backend-configmap
+  namespace: wine-app
+data:
+  PORT: "4000"
+  NODE_ENV: "production"
+  EMAIL_NAME: "no.reply.tranvix0910@gmail.com"
